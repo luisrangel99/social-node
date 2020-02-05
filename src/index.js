@@ -7,6 +7,7 @@ const bcrypt = require('bcryptjs');
 // Initial
 const app = express();
 
+app.set("view engine", "hbs");
 app.set( 'port', process.env.PORT || 3000 );
 app.set("views", path.join(__dirname + "/views"));
 app.engine(
@@ -16,17 +17,16 @@ app.engine(
     extname: ".hbs"
   })
 );
-app.set("view engine", ".hbs");
 
 // Middlewares
+app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "/public")));
 
-
 //Routes
-app.use(require('./routes/users.js'));
+app.use(require('./routes/users'));
 
 mongoose
-  .connect("mongodb://localhost:27017:upq", {
+  .connect("mongodb://localhost:27017/upq", {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
